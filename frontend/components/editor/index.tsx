@@ -5,7 +5,7 @@ import monaco from "monaco-editor"
 import Editor, { BeforeMount, OnMount } from "@monaco-editor/react"
 import { io } from "socket.io-client"
 import { toast } from "sonner"
-import { useClerk } from "@clerk/nextjs"
+// import { useClerk } from "@clerk/nextjs"
 
 import * as Y from "yjs"
 import LiveblocksProvider from "@liveblocks/yjs"
@@ -91,7 +91,7 @@ export default function CodeEditor({
   >([])
 
   const isOwner = sandboxData.userId === userData.id
-  const clerk = useClerk()
+  // const clerk = useClerk()
 
   // Liveblocks hooks
   const room = useRoom()
@@ -672,7 +672,7 @@ export default function CodeEditor({
                 </div>
               </>
             ) : // Note clerk.loaded is required here due to a bug: https://github.com/clerk/javascript/issues/1643
-            clerk.loaded ? (
+            true ? (
               <>
                 {provider && userInfo ? (
                   <Cursors yProvider={provider} userInfo={userInfo} />

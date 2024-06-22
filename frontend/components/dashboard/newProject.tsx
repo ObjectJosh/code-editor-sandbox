@@ -31,7 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
-import { useUser } from "@clerk/nextjs"
+// import { useUser } from "@clerk/nextjs"
 import { createSandbox } from "@/lib/actions"
 import { useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
@@ -99,7 +99,7 @@ export default function NewProjectModal({
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-  const user = useUser()
+  const user = {}
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),

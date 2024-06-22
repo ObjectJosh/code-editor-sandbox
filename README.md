@@ -19,7 +19,7 @@ cd frontend
 npm install
 ```
 
-Add the required environment variables in `.env` (example file provided in `.env.example`). You will need to make an account on [Clerk](https://clerk.com/) and [Liveblocks](https://liveblocks.io/) to get API keys.
+Add the required environment variables in `.env` (example file provided in `.env.example`). You will need to make an account on [Liveblocks](https://liveblocks.io/) to get API keys.
 
 Then, run in development mode
 
@@ -168,7 +168,6 @@ It should be in the form `category(scope or module): message` in your commit mes
 - [Next.js](https://nextjs.org/)
 - [TailwindCSS](https://tailwindcss.com/)
 - [Shadcn UI](https://ui.shadcn.com/)
-- [Clerk](https://clerk.com/)
 - [Monaco](https://microsoft.github.io/monaco-editor/)
 - [Liveblocks](https://liveblocks.io/)
 

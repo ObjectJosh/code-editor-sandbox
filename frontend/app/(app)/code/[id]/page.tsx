@@ -1,7 +1,7 @@
 import Navbar from "@/components/editor/navbar"
 import { Room } from "@/components/editor/live/room"
 import { Sandbox, User, UsersToSandboxes } from "@/lib/types"
-import { currentUser } from "@clerk/nextjs"
+import { currentUser } from "@/lib/user"
 import { notFound, redirect } from "next/navigation"
 import Loading from "@/components/editor/loading"
 import dynamic from "next/dynamic"
@@ -10,29 +10,38 @@ import fs from "fs"
 export const revalidate = 0
 
 const getUserData = async (id: string) => {
-  const userRes = await fetch(
-    `${process.env.NEXT_PUBLIC_DATABASE_WORKER_URL}/api/user?id=${id}`,
-    {
-      headers: {
-        Authorization: `${process.env.NEXT_PUBLIC_WORKERS_KEY}`,
-      },
-    }
-  )
-  const userData: User = await userRes.json()
-  return userData
+  // const userRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_DATABASE_WORKER_URL}/api/user?id=${id}`,
+  //   {
+  //     headers: {
+  //       Authorization: `${process.env.NEXT_PUBLIC_WORKERS_KEY}`,
+  //     },
+  //   }
+  // )
+  // const userData: User = await userRes.json()
+  // return userData
+  return {}
 }
 
 const getSandboxData = async (id: string) => {
-  const sandboxRes = await fetch(
-    `${process.env.NEXT_PUBLIC_DATABASE_WORKER_URL}/api/sandbox?id=${id}`,
-    {
-      headers: {
-        Authorization: `${process.env.NEXT_PUBLIC_WORKERS_KEY}`,
-      },
-    }
-  )
-  const sandboxData: Sandbox = await sandboxRes.json()
-  return sandboxData
+  // const sandboxRes = await fetch(
+  //   `${process.env.NEXT_PUBLIC_DATABASE_WORKER_URL}/api/sandbox?id=${id}`,
+  //   {
+  //     headers: {
+  //       Authorization: `${process.env.NEXT_PUBLIC_WORKERS_KEY}`,
+  //     },
+  //   }
+  // )
+  // const sandboxData: Sandbox = await sandboxRes.json()
+
+  // return sandboxData
+  return {
+    id: "1",
+    name: "My Sandbox",
+    type: "react",
+    author: "John Doe",
+    sharedOn: new Date(),
+  }
 }
 
 const getSharedUsers = async (usersToSandboxes: UsersToSandboxes[]) => {
@@ -81,10 +90,13 @@ export default async function CodePage({ params }: { params: { id: string } }) {
 
   const userData = await getUserData(user.id)
   const sandboxData = await getSandboxData(sandboxId)
-  const shared = await getSharedUsers(sandboxData.usersToSandboxes)
+  // const shared = await getSharedUsers(sandboxData.usersToSandboxes)
+  const shared = []
 
-  const isOwner = sandboxData.userId === user.id
-  const isSharedUser = shared.some((uts) => uts.id === user.id)
+  // const isOwner = sandboxData.userId === user.id
+  // const isSharedUser = shared.some((uts) => uts.id === user.id)
+  const isOwner = true
+  const isSharedUser = false
 
   if (!isOwner && !isSharedUser) {
     return notFound()
