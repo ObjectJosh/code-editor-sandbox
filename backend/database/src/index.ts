@@ -25,6 +25,7 @@ export default {
 		env: Env,
 		ctx: ExecutionContext
 	): Promise<Response> {
+		console.log("FETCH")
 		const success = new Response("Success", { status: 200 })
 		const invalidRequest = new Response("Invalid Request", { status: 400 })
 		const notFound = new Response("Not Found", { status: 404 })
@@ -39,6 +40,8 @@ export default {
 		}
 
 		const db = drizzle(env.DB, { schema })
+		console.log(db)
+		console.log(path)
 
 		if (path === "/api/sandbox") {
 			if (method === "GET") {
@@ -255,6 +258,7 @@ export default {
 		} else if (path === "/api/user") {
 			if (method === "GET") {
 				const params = url.searchParams
+				console.log("yooooo", params.has("id"))
 
 				if (params.has("id")) {
 					const id = params.get("id") as string
@@ -273,6 +277,7 @@ export default {
 					return json(res ?? {})
 				}
 			} else if (method === "POST") {
+				console.log("got here to user schema")
 				const userSchema = z.object({
 					id: z.string(),
 					name: z.string(),

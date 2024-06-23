@@ -14,6 +14,6 @@ export default process.env.LOCAL_DB_PATH
 			driver: "d1",
 			dbCredentials: {
 				wranglerConfigPath: "wrangler.toml",
-				dbName: "d1-sandbox",
+				dbName: "database",
 			},
 	  } satisfies Config);

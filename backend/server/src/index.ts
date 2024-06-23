@@ -40,6 +40,7 @@ const io = new Server(httpServer, {
   },
 });
 
+
 let inactivityTimeout: NodeJS.Timeout | null = null;
 let isOwnerConnected = false;
 
@@ -66,6 +67,8 @@ io.use(async (socket, next) => {
   }
 
   const { sandboxId, userId } = parseQuery.data;
+  // console.log("DB WORKER URL", process.env.DATABASE_WORKER_URL)
+  // console.log(process.env)
   const dbUser = await fetch(
     `${process.env.DATABASE_WORKER_URL}/api/user?id=${userId}`,
     {
@@ -91,6 +94,8 @@ io.use(async (socket, next) => {
     return;
   }
 
+  // console.log('socket got here')
+
   socket.data = {
     userId,
     sandboxId: sandboxId,
@@ -101,6 +106,7 @@ io.use(async (socket, next) => {
 });
 
 io.on("connection", async (socket) => {
+  console.log('got to connection')
   if (inactivityTimeout) clearTimeout(inactivityTimeout);
 
   const data = socket.data as {
@@ -108,6 +114,7 @@ io.on("connection", async (socket) => {
     sandboxId: string;
     isOwner: boolean;
   };
+  // console.log(data)
 
   if (data.isOwner) {
     isOwnerConnected = true;
@@ -128,6 +135,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.emit("loaded", sandboxFiles.files);
+
 
   socket.on("getFile", (fileId: string, callback) => {
     const file = sandboxFiles.fileData.find((f) => f.id === fileId);
@@ -191,6 +199,7 @@ io.on("connection", async (socket) => {
   });
 
   socket.on("createFile", async (name: string, callback) => {
+    console.log('socket got to create fike')
     try {
       const size: number = await getProjectSize(data.sandboxId);
       // limit is 200mb

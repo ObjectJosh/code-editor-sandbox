@@ -41,12 +41,14 @@ export default function CodeEditor({
   sandboxData: Sandbox
   reactDefinitionFile: string
 }) {
+  // console.log('CODE EDITOR', process.env.NEXT_PUBLIC_SERVER_PORT)
   const socket = io(
     `http://localhost:${process.env.NEXT_PUBLIC_SERVER_PORT}?userId=${userData.id}&sandboxId=${sandboxData.id}`,
     {
-      timeout: 2000,
+      timeout: 5000,
     }
   )
+  // console.log('this socket', socket)
 
   const [isPreviewCollapsed, setIsPreviewCollapsed] = useState(true)
   const [disableAccess, setDisableAccess] = useState({
@@ -358,7 +360,9 @@ export default function CodeEditor({
 
   // Connection/disconnection effect
   useEffect(() => {
-    socket.connect()
+    // console.log("SOCKEETTT", socket)
+    let res = socket.connect()
+    // console.log("SOCKEETTT RESS", res)
 
     return () => {
       socket.disconnect()
@@ -367,14 +371,38 @@ export default function CodeEditor({
 
   // Socket event listener effect
   useEffect(() => {
-    const onConnect = () => {}
+    const onConnect = () => {
+      console.log("socket onConnect")
+      console.log(socket)
+    }
 
     const onDisconnect = () => {
       setTerminals([])
     }
 
     const onLoadedEvent = (files: (TFolder | TFile)[]) => {
-      setFiles(files)
+      console.log("onLoadedEvent")
+      // setFiles(files)
+      // Boilerplate files
+      setFiles([
+        {
+          id: "boilerplate",
+          name: "Boilerplate",
+          type: "folder",
+          children: [
+            {
+              id: "boilerplate.tsx",
+              name: "boilerplate.tsx",
+              type: "file",
+            },
+            {
+              id: "boilerplate.css",
+              name: "boilerplate.css",
+              type: "file",
+            },
+          ],
+        },
+      ])
     }
 
     const onRateLimit = (message: string) => {

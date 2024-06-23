@@ -19,6 +19,7 @@ export default async function DashboardPage() {
       },
     }
   )
+
   const userData = (await userRes.json()) as User
 
   const sharedRes = await fetch(
